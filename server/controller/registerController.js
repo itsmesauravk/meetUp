@@ -44,7 +44,7 @@ const loginUser = async(req,res) =>{
             }else{
                 const token = jwt.sign({userId:user._id},process.env.SECRET_KEY,{expiresIn:"1h"})
                 if(token){
-                    return res.status(200).json({success:true, token: token})
+                    return res.status(200).json({success:true, token: token, user: user._id})
                 }
             }
         }
@@ -53,6 +53,7 @@ const loginUser = async(req,res) =>{
     }
    
 }
+
 
 
 module.exports = {SignUpUser,loginUser}

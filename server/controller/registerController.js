@@ -54,6 +54,27 @@ const loginUser = async(req,res) =>{
    
 }
 
+const verifyUser = async(req,res) =>{
+    try {
+        const{id} = req.params;
+        // const decode = jwt.verify(token,process.env.SECRET_KEY);
+        // console.log(decode)
+        // if(!decode){
+        //     return res.status(404).json({success:false,message:"Unable to verify the user"})
+        // }
+            const showDetail = await registerUser.findById(id)
+            if(showDetail){
+            return res.status(200).json({success:true, showDetail})
+        }else{
+            return res.status(404).json({success:false,message:"Unable to show the user details"})
+        }
+
+    } catch (error) {
+        return res.status(400).json({success:true,message:"error",error})
+    }
+}
 
 
-module.exports = {SignUpUser,loginUser}
+
+
+module.exports = {SignUpUser,loginUser,verifyUser}

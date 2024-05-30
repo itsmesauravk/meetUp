@@ -7,10 +7,8 @@ const addPost = async(req,res) =>{
         }
     
         const { caption} = req.body;
-        const userId = req.params.id;
-        const imagePath = req.file.path;
-
-        console.log(caption,userId,imagePath)
+        const{userId} = req.params;
+        const imagePath = req.file.path.replace(/\\/g, "/");
         
     
         const addUserPost = await postData.create({
@@ -30,4 +28,18 @@ const addPost = async(req,res) =>{
 
 }
 
-module.exports = addPost
+const getPostUserDetails = async(req,res) =>{
+  try {
+    const showUserData = await postData.find({}).populate("user")
+    if(!showUserData){
+      return res.status(404).json({success:false,message:"Unable to show user"})
+    }else{
+      return res.status(200).json({success:true,showUserData})
+    }
+  } catch (error) {
+    return res.status(400).json({success:false,message:"error",error})
+  }
+}
+
+
+module.exports = {addPost,getPostUserDetails}

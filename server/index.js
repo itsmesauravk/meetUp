@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const router = require("../server/route/route")
+const routerPost = require("../server/route/postRoute")
 const connectDb = require("./connectDb")
 const cors = require("cors")
 require("dotenv").config()
@@ -14,11 +15,15 @@ PORT = 4000
 
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
 app.use(cors({
     origin:"http://localhost:3000"
 }))
 
 app.use("/",router)
+app.use("/",routerPost)
+
+app.use("/uploads", express.static('uploads'))
 
 app.get("/",(req,res)=>{
 res.send("Hello World")

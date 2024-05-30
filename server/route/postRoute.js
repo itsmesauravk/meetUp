@@ -20,7 +20,7 @@ const upload = multer({ storage });
 // Ensure the field name is 'photo' here
 routerPost.post('/new-post/:id', upload.single('photo'), addPost);
 
-// for getting user data while adding the post
-routerPost.route("/get-user-data/:id").get(getPostUserDetails)
+// for getting all posts
+routerPost.route("/get-all-posts").get(getPostUserDetails)
 
 module.exports = routerPost;

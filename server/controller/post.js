@@ -7,14 +7,16 @@ const addPost = async(req,res) =>{
         }
     
         const { caption} = req.body;
-        const{userId} = req.params;
-        const imagePath = req.file.path.replace(/\\/g, "/");
+        const userId = req.params.id;
+        const imagePath = req.file.path;
+
+        console.log(caption,userId,imagePath)
         
     
         const addUserPost = await postData.create({
           caption: caption,
           image: imagePath,
-          shelter: userId   // added shelter Id
+          user: userId   
         });
     
         if (addUserPost) {

@@ -40,7 +40,13 @@ const Login = () => {
         const data = await response.json();
         if(data.success){
             console.log(data)
-            localStorage.setItem('user-token', data.token)
+            const userData = {
+              token: data.token,
+              userId: data.user
+            };
+            
+            localStorage.setItem('user-data', JSON.stringify(userData));
+            
             successNotify()
             setEmail('')
             setPassword('')

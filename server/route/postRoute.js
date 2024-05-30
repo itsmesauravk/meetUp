@@ -1,23 +1,22 @@
-const addUserPost = require("../controller/post")
-const express = require("express")
-const routerPost = express.Router()
-const multer = require("multer")
-
+const express = require('express');
+const multer = require('multer');
+const addPost = require('../controller/post');
+const routerPost = express.Router();
 
 // Set storage engine
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, `${Date.now()}-${file.originalname}`);
-    },
-  });
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
-  // Init upload
+// Init upload
 const upload = multer({ storage });
 
-routerPost.post('/add-post/:id', upload.single('image'), addUserPost); 
+// Ensure the field name is 'photo' here
+routerPost.post('/new-post/:id', upload.single('photo'), addPost);
 
-
-module.exports = routerPost
+module.exports = routerPost;

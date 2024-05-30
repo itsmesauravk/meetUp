@@ -1,0 +1,53 @@
+/* Navbar.css */
+
+    .navbar-main{
+        
+        background-color: #4267B2; 
+        padding: 10px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+
+    }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-link i {
+    margin-right: 8px; /* Space between icon and text */
+  }
+  
+  .navbar-link:hover {
+    text-decoration: underline;
+  }
+  

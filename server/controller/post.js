@@ -41,5 +41,37 @@ const getPostUserDetails = async(req,res) =>{
   }
 }
 
+const editPost = async(req,res) =>{
+  try {
+    const {caption} = req.body;
+    const imagePath = req.file.path
+    const {postId} = req.params
 
-module.exports = {addPost,getPostUserDetails}
+    const editUserPost = await postData.findByIdAndUpdate(postId,{caption:caption,imagePath:imagePath})
+    if(!editUserPost){
+      return res.status(404).json({success:false,message:"Unable to edit."})
+    }else{
+      return res.status(200).json({success:true,message:"Edited successfully.",post:editUserPost})
+    }
+  } catch (error) {
+    return res.status(400).json({success:false,message:"error",error})
+  }
+}
+
+const deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const deleteUserPost = await postData.deleteOne({ _id: postId });
+
+    if (deleteUserPost.deletedCount === 0) {
+      return res.status(404).json({ success: false, message: "Unable to delete the post." });
+    } else {
+      return res.status(200).json({ success: true, message: "Deleted successfully." });
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, message: "error", error });
+  }
+};
+
+
+module.exports = {addPost,getPostUserDetails,editPost,deletePost}

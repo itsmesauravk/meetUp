@@ -23,8 +23,8 @@ routerPost.post('/new-post/:id', upload.single('photo'), addPost);
 routerPost.route("/edit-post/:id").patch(upload.single('photo'),editPost)
 routerPost.route("delete-post/:id").delete(deletePost)
 
-// for getting user data while adding the post
-routerPost.route("/get-user-data/:id").get(getPostUserDetails)
+// for getting all posts
+routerPost.route("/get-all-posts").get(getPostUserDetails)
 
 
 module.exports = routerPost;

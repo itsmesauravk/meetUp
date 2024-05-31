@@ -7,6 +7,9 @@ const post  = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"RegisterUser"
     }
+},
+{
+    timestamps:true
 })
 
 const postData = mongoose.model("postData",post)

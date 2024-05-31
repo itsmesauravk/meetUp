@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/Post.css'; 
 import { Link } from 'react-router-dom';
 
-const Post = ({ username, profilePic, timestamp, content, image }) => {
+const Post = ({ username, profilePic, content, image }) => {
   return (
     <div className="post">
       <div className="post-first-part">

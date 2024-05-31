@@ -1,32 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/Homepage.css';
 import Navbar from '../Component/Navbar';
-import Post from '../Component/Post'; // Import the Post component
+import Post from '../Component/Post'; 
 
 const Homepage = () => {
+    const [posts, setPosts] = useState([]);
+
+
+    const getPosts = async () => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/get-all-posts`);
+          const data = await response.json();
+          if(data.success){
+            setPosts(data.showUserData)
+          }
+        } catch (error) {
+          console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getPosts();
+    }, []);
+
+    console.log(posts)
+
   return (
     <div className='home-container'>
       <Navbar />
       <div className='home-posts'>
-
-        <Post
-          username="John Doe"
-          profilePic="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSOQFlVPVM6PMD6_oQA7JY_EKGrAbjWr-MYuXg9NFILoP5H7c2J"
-          timestamp="Just now"
-          content="This is a sample post content for movie MAHAJATRA."
-          image="https://i.ytimg.com/vi/IaJN-pV7cHg/maxresdefault.jpg"
-        />
-
-        <Post
-                  username="John Doe"
-                  profilePic="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSOQFlVPVM6PMD6_oQA7JY_EKGrAbjWr-MYuXg9NFILoP5H7c2J"
-                  timestamp="Just now"
-                  content="This is a sample post content for movie MAHAJATRA."
-                  image="https://i.ytimg.com/vi/IaJN-pV7cHg/maxresdefault.jpg"
-                />
-
-                
-
+        {posts && posts.map((post) => (
+          <Post
+            key={post._id}
+            username={`${post.user?.firstName} ${post.user?.lastName}`}
+            profilePic={post.user?.profilePic || "https://media.istockphoto.com/id/1327592449/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=yqoos7g9jmufJhfkbQsk-mdhKEsih6Di4WZ66t_ib7I="}
+            
+            content={post?.caption}
+            image={`${process.env.REACT_APP_API_URL}/${post?.image}`}
+          />
+        ))}
       </div>
     </div>
   );

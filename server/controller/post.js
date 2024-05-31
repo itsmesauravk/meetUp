@@ -30,7 +30,8 @@ const addPost = async(req,res) =>{
 
 const getPostUserDetails = async(req,res) =>{
   try {
-    const showUserData = await postData.find({}).populate("user")
+    const showUserData = await postData.find({}).populate("user").sort({createdAt:-1})
+    // console.log(showUserData)
     if(!showUserData){
       return res.status(404).json({success:false,message:"Unable to show user"})
     }else{

@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Navbar.css';
 
 const Navbar = () => {
+  const [user, setUser] = useState({});
+
+  const userData = localStorage.getItem('user-data');
+  const id = JSON.parse(userData).userId;
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/user-data/${id}`, {
+        method: 'GET'
+      });
+      const data = await response.json();
+      if(data.success){
+        setUser(data.showDetail);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <div className="navbar-main">
       <div className="navbar">
@@ -12,7 +35,7 @@ const Navbar = () => {
             alt="Profile" 
             className="profile-photo" 
           />
-          <p><b>John Doe</b></p>
+          <p><b>{user.firstName} {user.lastName}</b></p>
         </div>
         <div className="navbar-links">
           <Link to="/" className="navbar-link"><i className="fas fa-home"></i> Home</Link>

@@ -32,4 +32,34 @@ const commentUser = async(req,res) =>{
     }
 }
 
-module.exports = {addComment,commentUser}
+const editComment = async(req,res) =>{
+    try {
+        const commentId = req.params.id;
+        const {comment} = req.body;
+
+        const editCommentUser = await addUserComment.findByIdAndUpdate(commentId,{comment:comment},{new:true})
+        if(!editCommentUser){
+            return res.status(404).json({success:false,message:"Unable to edit the comment"})
+        }else{
+            return res.status(200).json({success:true,editCommentUser})
+        }
+    } catch (error) {
+        return res.status(400).json({success:false,message:"error",error})
+    }
+}
+
+const deleteComment = async(req,res) =>{
+    try {
+        const commentId = req.params.id;
+        const deleteUsersComment = addUserComment.deleteOne({_id:commentId})
+        if(!deleteUsersComment){
+            return res.status(404).json({success:false,message:"Unable to delete the comment"})
+        }else{
+            return res.status(200).json({success:true, message:"Deleted successfully"})
+        }
+    } catch (error) {
+        return res.status(400).json({success:false,message:error})
+    }
+}
+
+module.exports = {addComment,commentUser,editComment,deleteComment}

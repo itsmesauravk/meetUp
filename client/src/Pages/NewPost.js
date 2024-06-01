@@ -9,6 +9,7 @@ const NewPost = () => {
 
   const userData = localStorage.getItem("user-data");
   const id = JSON.parse(userData).userId;
+  console.log(id)
 
   const successNotify = () => {
     toast.success("Post uploaded successfully.", {

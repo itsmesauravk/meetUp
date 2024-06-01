@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const router = require("../server/route/route")
 const routerPost = require("../server/route/postRoute")
+const commentRouter = require("../server/route/commentRoute")
 const connectDb = require("./connectDb")
 const cors = require("cors")
 require("dotenv").config()
@@ -22,6 +23,7 @@ app.use(cors({
 
 app.use("/",router)
 app.use("/",routerPost)
+app.use("/",commentRouter)
 
 app.use("/uploads", express.static('uploads'))
 

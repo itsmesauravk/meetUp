@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/Post.css'; 
 import { Link } from 'react-router-dom';
 
-const Post = ({ username, profilePic, content, image }) => {
+const Post = ({ username, profilePic,userId, content, image, visible}) => {
   return (
     <div className="post">
       <div className="post-first-part">
@@ -34,7 +34,7 @@ const Post = ({ username, profilePic, content, image }) => {
           <p>{content}</p>
         </div>
         <div className='comments'>
-          <Link to={'#'}>View all comments</Link>
+          {visible && <Link to={`/comment/${userId}`} className='comment-link'>View all comments</Link>}
         </div>
       </div>
     </div>

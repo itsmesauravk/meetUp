@@ -43,6 +43,21 @@ const getPostUserDetails = async(req,res) =>{
   }
 }
 
+const getPostDetails = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    const showPostDetail = await postData.findById(postId);
+    if (!showPostDetail) {
+      return res.status(404).json({ success: false, message: "Post not found" });
+    } else {
+      return res.status(200).json({ success: true, showPostDetail });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error", error });
+  }
+};
+
 const editPost = async(req,res) =>{
   try {
     const {caption} = req.body;
@@ -76,4 +91,4 @@ const deletePost = async (req, res) => {
 };
 
 
-module.exports = {addPost,getPostUserDetails,editPost,deletePost}
+module.exports = {addPost,getPostUserDetails,editPost,deletePost,getPostDetails}

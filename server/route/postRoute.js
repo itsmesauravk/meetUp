@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const routerPost = express.Router();
-const {addPost, getPostUserDetails, editPost, deletePost} = require('../controller/post');
+const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails} = require('../controller/post');
 
 
 // Set storage engine
@@ -25,6 +25,8 @@ routerPost.route("delete-post/:id").delete(deletePost)
 
 // for getting all posts
 routerPost.route("/get-all-posts").get(getPostUserDetails)
+//for getting the specific post
+routerPost.route("/get-specific-post/:id").get(getPostDetails)
 
 
 module.exports = routerPost;

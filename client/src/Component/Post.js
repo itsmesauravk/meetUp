@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/Post.css'; 
 import { Link } from 'react-router-dom';
 
-const Post = ({ username, profilePic,userId, content, image, visible}) => {
+const Post = ({ username, profilePic, userId, content, image, visible }) => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleEdit = () => {
+    // Add your edit logic here
+    console.log('Edit clicked');
+  };
+
+  const handleDelete = () => {
+    // Add your delete logic here
+    console.log('Delete clicked');
+  };
+
   return (
     <div className="post">
       <div className="post-first-part">
@@ -12,7 +28,13 @@ const Post = ({ username, profilePic,userId, content, image, visible}) => {
             <p>{username}</p>
           </div>
           <div className='post-more'>
-            <i className="fas fa-ellipsis-h"></i>
+            <i className="fas fa-ellipsis-h" onClick={toggleDropdown}></i>
+            {dropdownVisible && (
+              <div className="dropdown">
+                <button id='edit-btn' onClick={handleEdit}>Edit</button>
+                <button id='dlt-btn' onClick={handleDelete}>Delete</button>
+              </div>
+            )}
           </div>
         </div>
         <div className="post-content">

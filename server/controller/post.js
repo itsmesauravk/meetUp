@@ -46,6 +46,7 @@ const getPostUserDetails = async(req,res) =>{
 const getPostDetails = async (req, res) => {
   try {
     const postId = req.params.id;
+    console.log(postId)
 
     const showPostDetail = await postData.findById(postId);
     if (!showPostDetail) {

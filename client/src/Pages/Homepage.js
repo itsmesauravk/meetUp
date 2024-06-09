@@ -32,6 +32,7 @@ const Homepage = () => {
         {posts && posts.map((post) => (
           <Post
             key={post._id}
+            postId={post._id}
             username={`${post.user?.firstName} ${post.user?.lastName}`}
             profilePic={post.user?.profilePic || "https://media.istockphoto.com/id/1327592449/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=yqoos7g9jmufJhfkbQsk-mdhKEsih6Di4WZ66t_ib7I="}
             userId={post.user?._id}

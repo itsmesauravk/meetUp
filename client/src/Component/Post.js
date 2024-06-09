@@ -2,21 +2,51 @@ import React, { useState } from 'react';
 import '../css/Post.css'; 
 import { Link } from 'react-router-dom';
 
-const Post = ({ username, profilePic, userId, content, image, visible }) => {
+import { toast } from "react-toastify";
+
+
+const Post = ({ username, profilePic, postId, content, image, visible }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const successNotifyD = () => {
+      toast.success("Post Deleted Successfully.", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+  }
+
+  const errorNotifyD = () => {
+      toast.error("Failed Post Delete.", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+  }
+
   const handleEdit = () => {
     // Add your edit logic here
     console.log('Edit clicked');
   };
 
-  const handleDelete = () => {
-    // Add your delete logic here
-    console.log('Delete clicked');
+  const handleDelete = async(postId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-post/${postId}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if(data.success){
+        // console.log('Post deleted');
+        successNotifyD()
+        window.location.reload()
+      }
+
+    } catch (error) {
+      console.log(error);
+      errorNotifyD()
+    }
   };
 
   return (
@@ -32,7 +62,7 @@ const Post = ({ username, profilePic, userId, content, image, visible }) => {
             {dropdownVisible && (
               <div className="dropdown">
                 <button id='edit-btn' onClick={handleEdit}>Edit</button>
-                <button id='dlt-btn' onClick={handleDelete}>Delete</button>
+                <button id='dlt-btn' onClick={()=>handleDelete(postId)}>Delete</button>
               </div>
             )}
           </div>
@@ -56,7 +86,7 @@ const Post = ({ username, profilePic, userId, content, image, visible }) => {
           <p>{content}</p>
         </div>
         <div className='comments'>
-          {visible && <Link to={`/comment/${userId}`} className='comment-link'>View all comments</Link>}
+          {visible && <Link to={`/comment/${postId}`} className='comment-link'>View all comments</Link>}
         </div>
       </div>
     </div>

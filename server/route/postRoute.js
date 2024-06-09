@@ -21,7 +21,7 @@ const upload = multer({ storage });
 routerPost.post('/new-post/:id', upload.single('photo'), addPost);
 //for editing the post
 routerPost.route("/edit-post/:id").patch(upload.single('photo'),editPost)
-routerPost.route("delete-post/:id").delete(deletePost)
+routerPost.route("/delete-post/:id").delete(deletePost)
 
 // for getting all posts
 routerPost.route("/get-all-posts").get(getPostUserDetails)

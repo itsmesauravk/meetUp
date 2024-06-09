@@ -5,6 +5,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import NewPost from './Pages/NewPost';
 import Comment from './Pages/Comment';
+import Profile from './Pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('user-data'));
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
         <Route path="/new-post" element={isAuthenticated ? <NewPost /> : <Navigate to="/login" />} />
         <Route path='/comment/:userId' element={isAuthenticated ? <Comment /> : <Navigate to="/login" />} />
+        <Route path='/profile/:userId' element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

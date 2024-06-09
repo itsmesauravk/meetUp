@@ -46,9 +46,11 @@ const getPostUserDetails = async(req,res) =>{
 const getPostDetails = async (req, res) => {
   try {
     const postId = req.params.id;
-    console.log(postId)
+    // console.log(postId)
+    // const showP = await postData.find({})
+    // res.status(200).json({showP})
 
-    const showPostDetail = await postData.findById(postId);
+    const showPostDetail = await postData.findById(postId).populate("user");
     if (!showPostDetail) {
       return res.status(404).json({ success: false, message: "Post not found" });
     } else {
@@ -78,7 +80,8 @@ const editPost = async(req,res) =>{
 
 const deletePost = async (req, res) => {
   try {
-    const { postId } = req.params;
+    const postId  = req.params.id;
+    // console.log(postId)
     const deleteUserPost = await postData.deleteOne({ _id: postId });
 
     if (deleteUserPost.deletedCount === 0) {

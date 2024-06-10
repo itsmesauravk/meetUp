@@ -18,8 +18,8 @@ PORT = 4000
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-    // origin:"http://localhost:3000",
-    origin: "https://meet-up-ashy.vercel.app",
+    origin:"http://localhost:3000",
+    // origin: "https://meet-up-ashy.vercel.app",
     methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))

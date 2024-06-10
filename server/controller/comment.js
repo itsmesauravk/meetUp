@@ -1,27 +1,32 @@
 const addUserComment = require("../schema/commentSchema")
 
-const addComment = async(req,res) =>{
+const addComment = async (req, res) => {
     try {
         const userId = req.params.id;
-        const comment = req.body;
+        const postId = req.params.id;
+        const { comment } = req.body;
+
+        if (!comment) {
+            return res.status(400).json({ success: false, message: "Comment is required." });
+        }
 
         const addUComment = await addUserComment.create({
-            comment : comment,
+            comment: comment,
+            post: postId,
             user: userId
-        })
-        if(!addUComment){
-            return res.status(404).json({success:false,message:"Unable to add the comment."})
-        }else{
-            return res.status(200).json({success:true, message:"added successfully", addUComment})
-        }
+        }); 
+
+        return res.status(201).json({ success: true, message: "Comment added successfully", addUComment });
     } catch (error) {
-        return res.status(400).json({success:false,message:"error",error})
+        console.error("Error adding comment:", error);
+        return res.status(500).json({ success: false, message: "An error occurred while adding the comment.", error: error.message });
     }
 }
 
+
 const commentUser = async(req,res) =>{
     try {
-        const getCommentUser = await addUserComment.find({}).populate("user").sort({createdAt:-1})
+        const getCommentUser = await addUserComment.find({}).populate("user").populate("post").sort({createdAt:-1})
         if(!getCommentUser){
             return res.status(404).json({success:false,message:"Unable to get the user data"})
         }else{
@@ -58,7 +63,7 @@ const deleteComment = async(req,res) =>{
             return res.status(200).json({success:true, message:"Deleted successfully"})
         }
     } catch (error) {
-        return res.status(400).json({success:false,message:error}) //
+        return res.status(400).json({success:false,message:error})
     }
 }
 

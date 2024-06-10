@@ -16,6 +16,28 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+//for getting the usage statistics
+
+// const getUsageStats = async () => {
+//     try {
+//       const result = await cloudinary.api.usage();
+//       console.log('Cloudinary Usage Statistics:', result);
+//       return result;
+//     } catch (error) {
+//       console.error('Error fetching Cloudinary usage statistics:', error);
+//       throw error;
+//     }
+//   };
+  
+//   // Example usage
+//   getUsageStats().then(stats => {
+//     // Process the stats as needed
+//     console.log('Credit usage count based on stats:', stats);
+//   });
+
+
+
+
 // Function to upload a file
 const uploadFilePath = async (filePath) => {
     try {

@@ -41,7 +41,9 @@ cloudinary.config({
 // Function to upload a file
 const uploadFilePath = async (filePath) => {
     try {
-        const result = await cloudinary.uploader.upload(filePath);
+        const result = await cloudinary.uploader.upload(filePath,{
+            folder:'User_Post'
+        });
         // console.log('File uploaded successfully:', result);
         return result;
     } catch (error) {

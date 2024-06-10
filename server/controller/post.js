@@ -1,20 +1,27 @@
 const postData = require("../schema/postSchema")
 
+//cloudinary upload
+const {uploadFilePath} = require("../middleware/uploadFile")
+
 const addPost = async(req,res) =>{
     try {
         if (!req.file.path) {
           return res.status(400).json({ message: 'No image uploaded' });
         }
-    
+        
         const { caption} = req.body;
         const userId = req.params.id;
-        console.log(userId)
+        // console.log(userId)
         const imagePath = req.file.path.replace(/\\/g, "/");
         
-    
+        //uploading image 
+        const result = await uploadFilePath(imagePath);
+        // console.log(result)
+        const {secure_url} = result;
+
         const addUserPost = await postData.create({
           caption: caption,
-          image: imagePath,
+          image: secure_url,
           user: userId   
         });
     

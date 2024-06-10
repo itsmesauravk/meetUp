@@ -37,7 +37,7 @@ const Homepage = () => {
             profilePic={post.user?.profilePic || "https://media.istockphoto.com/id/1327592449/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=yqoos7g9jmufJhfkbQsk-mdhKEsih6Di4WZ66t_ib7I="}
             userId={post.user?._id}
             content={post?.caption}
-            image={`${process.env.REACT_APP_API_URL}/${post?.image}`}
+            image={post?.image}
             visible={true}
           />
         ))}

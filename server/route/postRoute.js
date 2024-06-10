@@ -5,22 +5,27 @@ const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails} = requ
 
 
 // Set storage engine
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   },
+// });
 
-// Init upload
-const upload = multer({ storage });
+// // Init upload
+// const upload = multer({ storage });
+
+//for cloudinary
+const uploader = multer({
+  storage: multer.diskStorage({}),
+})
 
 // Ensure the field name is 'photo' here
-routerPost.post('/new-post/:id', upload.single('photo'), addPost);
+routerPost.post('/new-post/:id', uploader.single('photo'), addPost);
 //for editing the post
-routerPost.route("/edit-post/:id").patch(upload.single('photo'),editPost)
+routerPost.route("/edit-post/:id").patch(uploader.single('photo'),editPost)
 routerPost.route("/delete-post/:id").delete(deletePost)
 
 // for getting all posts

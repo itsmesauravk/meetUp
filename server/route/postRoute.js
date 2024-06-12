@@ -4,6 +4,8 @@ const routerPost = express.Router();
 const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails} = require('../controller/post');
 
 
+
+
 // Set storage engine
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {

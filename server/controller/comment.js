@@ -2,8 +2,8 @@ const addUserComment = require("../schema/commentSchema")
 
 const addComment = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const postId = req.params.id;
+        const userId = req.params.userId;
+        const postId = req.params.postId;
         const { comment } = req.body;
 
         if (!comment) {
@@ -56,7 +56,7 @@ const editComment = async(req,res) =>{
 const deleteComment = async(req,res) =>{
     try {
         const commentId = req.params.id;
-        const deleteUsersComment = addUserComment.deleteOne({_id:commentId})
+        const deleteUsersComment = addUserComment.findByIdAndDelete(commentId)
         if(!deleteUsersComment){
             return res.status(404).json({success:false,message:"Unable to delete the comment"})
         }else{

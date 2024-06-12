@@ -61,7 +61,9 @@ const Post = ({ username, profilePic, postId, content, image, visible }) => {
             <i className="fas fa-ellipsis-h" onClick={toggleDropdown}></i>
             {dropdownVisible && (
               <div className="dropdown">
-                <button id='edit-btn' onClick={handleEdit}>Edit</button>
+                <Link to={`/edit-post/${postId}`} >
+                <button id='edit-btn'>Edit</button>
+                </Link>
                 <button id='dlt-btn' onClick={()=>handleDelete(postId)}>Delete</button>
               </div>
             )}

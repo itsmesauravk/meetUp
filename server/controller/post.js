@@ -53,9 +53,7 @@ const getPostUserDetails = async(req,res) =>{
 const getPostDetails = async (req, res) => {
   try {
     const postId = req.params.id;
-    // console.log(postId)
-    // const showP = await postData.find({})
-    // res.status(200).json({showP})
+  
 
     const showPostDetail = await postData.findById(postId).populate("user");
     if (!showPostDetail) {
@@ -72,9 +70,17 @@ const editPost = async(req,res) =>{
   try {
     const {caption} = req.body;
     const imagePath = req.file.path
-    const {postId} = req.params
+    const postId = req.params.id;
 
-    const editUserPost = await postData.findByIdAndUpdate(postId,{caption:caption,imagePath:imagePath})
+    // console.log(postId)
+
+
+        //uploading image 
+    const result = await uploadFilePath(imagePath);
+        // console.log(result)
+    const {secure_url} = result;
+
+    const editUserPost = await postData.findByIdAndUpdate(postId,{caption:caption,image:secure_url})
     if(!editUserPost){
       return res.status(404).json({success:false,message:"Unable to edit."})
     }else{

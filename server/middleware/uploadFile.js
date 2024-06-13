@@ -20,9 +20,10 @@ cloudinary.config({
 const uploadFilePath = async (filePath) => {
     try {
         const result = await cloudinary.uploader.upload(filePath,{
-            folder:'User_Post'
+            folder:'User_Post',
+            resource_type:'auto'
         });
-        // console.log('File uploaded successfully:', result);
+        console.log('File uploaded successfully:', result);
         return result;
     } catch (error) {
         console.error('Error uploading file to Cloudinary:', error);

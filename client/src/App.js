@@ -7,6 +7,7 @@ import NewPost from './Pages/NewPost';
 import Comment from './Pages/Comment';
 import Profile from './Pages/Profile';
 import EditPost from './Pages/EditPost';
+import UploadPdf from './Pages/UploadPdf';
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
         <Route path='/comment/:userId' element={<Comment />} />
         <Route path='/profile/:userId' element={<Profile />} />
         <Route path="/edit-post/:postId" element={<EditPost/>} />
+        
+        <Route path='/upload-pdf' element={<UploadPdf />} />
       </Routes>
     </Router>
   );

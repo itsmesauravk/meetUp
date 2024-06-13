@@ -1,5 +1,8 @@
 const addUserComment = require("../schema/commentSchema")
 
+const {uploadFilePath} = require("../middleware/uploadFile")
+
+
 const addComment = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -75,4 +78,29 @@ const deleteComment = async(req,res) =>{
     }
 }
 
-module.exports = {addComment,commentUser,editComment,deleteComment}
+
+// upload pdf
+
+const uploadPdf = async(req,res)=>{
+
+    try {
+        const pdf = req.file.path;
+        console.log(pdf)
+        if(!pdf){
+            return res.status(400).json({success:false,message:"Please select a PDF file to upload."})
+        }
+
+        const upload = uploadFilePath(pdf);
+
+        if(!upload){
+            return res.status(400).json({success:false,message:"Error uploading PDF."})
+        }else{
+            return res.status(200).json({success:true,message:"PDF uploaded successfully."})
+        }
+    } catch (error) {
+        return res.status(500).json({success:false,message:"Internal server error."})
+    }
+
+}
+
+module.exports = {addComment,commentUser,editComment,deleteComment, uploadPdf}

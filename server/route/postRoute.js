@@ -3,22 +3,6 @@ const multer = require('multer');
 const routerPost = express.Router();
 const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails} = require('../controller/post');
 
-
-
-
-// Set storage engine
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, `${Date.now()}-${file.originalname}`);
-//   },
-// });
-
-// // Init upload
-// const upload = multer({ storage });
-
 //for cloudinary
 const uploader = multer({
   storage: multer.diskStorage({}),

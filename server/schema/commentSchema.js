@@ -11,18 +11,6 @@ const addComment = new mongoose.Schema({
     "post":{
         type: mongoose.Schema.Types.ObjectId,
         ref: postData
-    },
-    likesCount: {
-        type: Number,
-        default: 0
-    },
-    "likedBy": [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'RegisterUser'
-    }],
-    createdAt: { 
-        type: Date, 
-        default: Date.now 
     }
 }) 
 

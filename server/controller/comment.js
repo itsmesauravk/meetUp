@@ -24,18 +24,26 @@ const addComment = async (req, res) => {
 }
 
 
-const commentUser = async(req,res) =>{
+const commentUser = async (req, res) => {
     try {
-        const getCommentUser = await addUserComment.find({}).populate("user").populate("post").sort({createdAt:-1})
-        if(!getCommentUser){
-            return res.status(404).json({success:false,message:"Unable to get the user data"})
-        }else{
-            return res.status(200).json({success:true,message:"Loaded user detail",getCommentUser})
+        const { postId } = req.body; 
+    
+        const comments = await addUserComment.find({ post: postId })
+            .populate("user")
+            .populate("post")
+            .sort({ createdAt: -1 });
+        
+        if (!comments) {
+            return res.status(404).json({ success: false, message: "No comments found for the given post" });
         }
+    
+        return res.status(200).json({ success: true, message: "Loaded user comments", comments });
+        
     } catch (error) {
-        return res.status(400).json({success:false,message:"error",error})
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Server error", error: error.message });
     }
-}
+};
 
 const editComment = async(req,res) =>{
     try {
@@ -56,7 +64,7 @@ const editComment = async(req,res) =>{
 const deleteComment = async(req,res) =>{
     try {
         const commentId = req.params.id;
-        const deleteUsersComment = addUserComment.findByIdAndDelete(commentId)
+        const deleteUsersComment = await addUserComment.findByIdAndDelete(commentId)
         if(!deleteUsersComment){
             return res.status(404).json({success:false,message:"Unable to delete the comment"})
         }else{

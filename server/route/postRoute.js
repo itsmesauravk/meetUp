@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const routerPost = express.Router();
-const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails} = require('../controller/post');
+const {addPost, getPostUserDetails, editPost, deletePost, getPostDetails, likePost, unlikePost, getLikedUsers} = require('../controller/post');
 
 //for cloudinary
 const uploader = multer({
@@ -13,6 +13,12 @@ routerPost.post('/new-post/:id', uploader.single('photo'), addPost);
 //for editing the post
 routerPost.route("/edit-post/:id").patch(uploader.single('photo'),editPost)
 routerPost.route("/delete-post/:id").delete(deletePost)
+
+// for post like and unlike
+routerPost.post('/posts/:postId/like/:userId', likePost);
+routerPost.post('/posts/:postId/unlike/:userId', unlikePost);
+routerPost.get('/posts/:postId/likes', getLikedUsers);
+
 
 // for getting all posts
 routerPost.route("/get-all-posts").get(getPostUserDetails)

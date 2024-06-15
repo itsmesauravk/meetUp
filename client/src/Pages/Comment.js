@@ -65,13 +65,13 @@ const Comment = () => {
 
     const showPostComments = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-comment-user-data`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-comment-user-data/${postId}`, {
                 method: 'GET',
             })
             const data = await response.json()
             if(data.success){
                 console.log('Comment data loaded')
-                setUserComments(data.getCommentUser)
+                setUserComments(data.comments)
             }else{
                 console.log('Error loading comment data')
 

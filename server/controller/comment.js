@@ -29,9 +29,12 @@ const addComment = async (req, res) => {
 
 const commentUser = async (req, res) => {
     try {
-        const { postId } = req.body; 
+        const postId = req.params.postId; 
+       
+
+        // console.log(postId, userId);
     
-        const comments = await addUserComment.find({ post: postId })
+        const comments = await addUserComment.find({ post: postId})
             .populate("user")
             .populate("post")
             .sort({ createdAt: -1 });

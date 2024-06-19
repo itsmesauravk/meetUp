@@ -36,7 +36,7 @@ const Navbar = () => {
                 alt="Profile" 
                 className="profile-photo" 
               />
-              <p><b>{user.firstName} {user.lastName}</b></p>
+              <p><b>{user?.firstName} {user?.lastName}</b></p>
             </div>
         </Link>
         <div className="navbar-links">

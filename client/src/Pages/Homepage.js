@@ -23,7 +23,9 @@ const Homepage = () => {
         getPosts();
     }, []);
 
-    console.log(posts)
+    // console.log(posts)
+
+  
 
   return (
     <div className='home-container'>
@@ -38,6 +40,7 @@ const Homepage = () => {
             userId={post.user?._id}
             content={post?.caption}
             image={post?.image}
+            likes={post?.likes}
             visible={true}
           />
         ))}

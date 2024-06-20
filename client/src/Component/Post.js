@@ -1,51 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Post.css'; 
 import { Link } from 'react-router-dom';
-
 import { toast } from "react-toastify";
 
-
-const Post = ({ username, profilePic, postId, content, image, visible }) => {
+const Post = ({ username, profilePic, postId, content, image, likes, visible }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(likes.length);
+
+  const userData = localStorage.getItem("user");
+  const userId = JSON.parse(userData).id;
+
+  useEffect(() => {
+    // Check if the current user has liked the post
+    if (likes.includes(userId)) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  }, [likes, userId]);
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
   const successNotifyD = () => {
-      toast.success("Post Deleted Successfully.", {
-          position: "top-right",
-          autoClose: 2000,
-        });
+    toast.success("Post Deleted Successfully.", {
+      position: "top-right",
+      autoClose: 2000,
+    });
   }
 
   const errorNotifyD = () => {
-      toast.error("Failed Post Delete.", {
-          position: "top-right",
-          autoClose: 2000,
-        });
+    toast.error("Failed Post Delete.", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+  }
+
+  const handleLike = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/like-post/${postId}/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setLiked(true);
+        setLikeCount(likeCount + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleUnlike = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/unlike-posts/${postId}/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setLiked(false);
+        setLikeCount(likeCount - 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleEdit = () => {
-    // Add your edit logic here
     console.log('Edit clicked');
   };
 
-  const handleDelete = async(postId) => {
+  const handleDelete = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-post/${postId}`, {
         method: 'DELETE'
       });
       const data = await response.json();
-      if(data.success){
-        // console.log('Post deleted');
-        successNotifyD()
-        window.location.reload()
+      if (data.success) {
+        successNotifyD();
+        window.location.reload();
       }
-
     } catch (error) {
       console.log(error);
-      errorNotifyD()
+      errorNotifyD();
     }
   };
 
@@ -64,7 +109,7 @@ const Post = ({ username, profilePic, postId, content, image, visible }) => {
                 <Link to={`/edit-post/${postId}`} >
                 <button id='edit-btn'>Edit</button>
                 </Link>
-                <button id='dlt-btn' onClick={()=>handleDelete(postId)}>Delete</button>
+                <button id='dlt-btn' onClick={handleDelete}>Delete</button>
               </div>
             )}
           </div>
@@ -73,7 +118,12 @@ const Post = ({ username, profilePic, postId, content, image, visible }) => {
           <img src={image} alt="Post" className="post-image" />
           <div className="post-interact">
             <div className="post-interact-icons">
-              <i className="far fa-heart"></i>
+              <span>({likeCount})</span>
+              {liked ?
+                <i className="fas fa-heart" style={{ color: "red" }} onClick={handleUnlike}></i>
+                :
+                <i className="far fa-heart" onClick={handleLike}></i>
+              }
               <i className="far fa-comment"></i>
               <i className="far fa-paper-plane"></i>
             </div>

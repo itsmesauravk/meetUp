@@ -15,8 +15,9 @@ routerPost.route("/edit-post/:id").patch(uploader.single('photo'),editPost)
 routerPost.route("/delete-post/:id").delete(deletePost)
 
 // for post like and unlike
-routerPost.post('/posts/:postId/like/:userId', likePost);
-routerPost.post('/posts/:postId/unlike/:userId', unlikePost);
+routerPost.post('/like-post/:postId/:userId', likePost);
+
+routerPost.post('/unlike-posts/:postId/:userId', unlikePost);
 routerPost.get('/posts/:postId/likes', getLikedUsers);
 
 

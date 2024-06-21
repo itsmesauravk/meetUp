@@ -26,15 +26,82 @@ const addComment = async (req, res) => {
     }
 }
 
+const likeComment = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const commentId = req.params.commentId
+
+        const likeComment = await addUserComment.findById(commentId);
+
+        if (!likeComment) {
+            return res.status(404).json({ success: false, message: "Comment not found." });
+        }
+
+        if (!likeComment.commentLike.includes(userId)) {
+            likeComment.commentLike.push(userId);
+        }
+
+        await likeComment.save();
+
+        return res.status(200).json({ success: true, message: "Post liked successfully", likeComment });
+    } catch (error) {
+        console.error("Error liking comment:", error);
+        return res.status(500).json({ success: false, message: "An error occurred while liking the post.", error: error.message });
+    }
+};
+
+const unlikeComment = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const commentId = req.params.commentId;
+
+        const comment = await addUserComment.findById(commentId);
+
+        if (!comment) {
+            return res.status(404).json({ success: false, message: "Post not found." });
+        }
+
+        comment.commentLike = comment.commentLike.filter(id => id.toString() !== userId);
+
+        await comment.save();
+
+        return res.status(200).json({ success: true, message: "Post unliked successfully", comment });
+    } catch (error) {
+        console.error("Error unliking post:", error);
+        return res.status(500).json({ success: false, message: "An error occurred while unliking the post.", error: error.message });
+    }
+};
+
+
+const getCommentLikedUser = async(req,res) =>{
+    try {
+        const commentId = req.params.commentId
+
+        if(!commentId){
+            return res.status(400).json({success:false,message:"Comment Id not found"})
+        }
+
+        const getLike = await addUserComment.findById(commentId).populate("commentLike")
+        if(!getLike){
+            return res.status(404).json({success:false,message:"Unable to get like"})
+        }
+
+        return res.status(200).json({success:true, getLike})
+    } catch (error) {
+        return res.status(400).json({success:false,error})
+    }
+}
+
+
 
 const commentUser = async (req, res) => {
     try {
-        const postId = req.params.postId; 
+        const commentId = req.params.commentId; 
        
 
         // console.log(postId, userId);
     
-        const comments = await addUserComment.find({ post: postId})
+        const comments = await addUserComment.find({ comment: commentId})
             .populate("user")
             .populate("post")
             .sort({ createdAt: -1 });
@@ -106,4 +173,4 @@ const uploadPdf = async(req,res)=>{
 
 }
 
-module.exports = {addComment,commentUser,editComment,deleteComment, uploadPdf}
+module.exports = {addComment,commentUser,editComment,deleteComment, uploadPdf, likeComment, unlikeComment, getCommentLikedUser}

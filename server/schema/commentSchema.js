@@ -11,7 +11,11 @@ const addComment = new mongoose.Schema({
     "post":{
         type: mongoose.Schema.Types.ObjectId,
         ref: postData
-    }
+    },
+    "commentLike":[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: RegisterUser
+    }]
 }) 
 
 

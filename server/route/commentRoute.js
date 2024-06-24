@@ -1,4 +1,4 @@
-const {addComment, commentUser, editComment, deleteComment, uploadPdf} = require("../controller/comment")
+const {addComment, commentUser, editComment, deleteComment, uploadPdf, likeComment, unlikeComment, getCommentLikedUser} = require("../controller/comment")
 const express = require("express")
 const multer = require("multer")
 const commentRouter = express.Router()
@@ -10,9 +10,12 @@ const uploader = multer({
   
 
 commentRouter.route("/add-comment/:userId/:postId").post(addComment)
-commentRouter.route("/get-comment-user-data/:postId").get(commentUser)
-commentRouter.route("/edit-users-comment/:id").patch(editComment)
-commentRouter.route("/delete-users-comment/:id").delete(deleteComment)
+commentRouter.route("/get-comment-user-data/:commentId").get(commentUser)
+commentRouter.route("/like-comment/:commentId").post(likeComment)
+commentRouter.route("/unlike-comment/:commentId").post(unlikeComment)
+commentRouter.route("/get-comment-like/:commentId").get(getCommentLikedUser)
+commentRouter.route("/edit-users-comment/:commentId").patch(editComment)
+commentRouter.route("/delete-users-comment/:commentId").delete(deleteComment)
 commentRouter.route("/upload-pdf").post(uploader.single('pdf'), uploadPdf)
 
 

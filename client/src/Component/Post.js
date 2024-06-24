@@ -3,7 +3,7 @@ import '../css/Post.css';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 
-const Post = ({ username, profilePic, postId, content, image, likes, visible }) => {
+const Post = ({ username, profilePic, postId, content, image, likes = [], visible }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes.length);
@@ -93,6 +93,8 @@ const Post = ({ username, profilePic, postId, content, image, likes, visible }) 
       errorNotifyD();
     }
   };
+
+ 
 
   return (
     <div className="post">

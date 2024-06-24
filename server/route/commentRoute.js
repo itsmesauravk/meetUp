@@ -11,8 +11,8 @@ const uploader = multer({
 
 commentRouter.route("/add-comment/:userId/:postId").post(addComment)
 commentRouter.route("/get-comment-user-data/:commentId").get(commentUser)
-commentRouter.route("/like-comment/:commentId").post(likeComment)
-commentRouter.route("/unlike-comment/:commentId").post(unlikeComment)
+commentRouter.route("/like-comment/:commentId/:userId").post(likeComment)
+commentRouter.route("/unlike-comment/:commentId/:userId").post(unlikeComment)
 commentRouter.route("/get-comment-like/:commentId").get(getCommentLikedUser)
 commentRouter.route("/edit-users-comment/:commentId").patch(editComment)
 commentRouter.route("/delete-users-comment/:commentId").delete(deleteComment)

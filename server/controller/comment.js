@@ -96,14 +96,14 @@ const getCommentLikedUser = async(req,res) =>{
 
 const commentUser = async (req, res) => {
     try {
-        const commentId = req.params.commentId; 
+        const postId = req.params.commentId; 
+        
        
 
         // console.log(postId, userId);
     
-        const comments = await addUserComment.find({ comment: commentId})
+        const comments = await addUserComment.find({ post: postId })
             .populate("user")
-            .populate("post")
             .sort({ createdAt: -1 });
         
         if (!comments) {
@@ -136,7 +136,7 @@ const editComment = async(req,res) =>{
 
 const deleteComment = async(req,res) =>{
     try {
-        const commentId = req.params.id;
+        const commentId = req.params.commentId;
         const deleteUsersComment = await addUserComment.findByIdAndDelete(commentId)
         if(!deleteUsersComment){
             return res.status(404).json({success:false,message:"Unable to delete the comment"})

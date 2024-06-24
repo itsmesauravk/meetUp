@@ -10,6 +10,7 @@ import EditPost from './Pages/EditPost';
 import UploadPdf from './Pages/UploadPdf';
 import Setting from './Pages/Setting';
 import ProtectedRoute from './Component/ProtectedRoute';
+import User from './Pages/User';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/edit-post/:postId" element={<ProtectedRoute element={<EditPost />} />} />
         <Route path='/settings' element={<ProtectedRoute element={<Setting />} />} />
         <Route path='/upload-pdf' element={<ProtectedRoute element={<UploadPdf />} />} />
+        <Route path='/users' element={<ProtectedRoute element={<User />} />} />
       </Routes>
     </Router>
   );

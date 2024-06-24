@@ -1,0 +1,78 @@
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .user-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .add-friend-btn, .message-btn {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+  }
+  
+  .add-friend-btn:hover, .message-btn:hover {
+    background-color: #155dcb;
+  }
+  
+  .message-btn {
+    background-color: #42b72a; 
+  }
+  
+  .message-btn:hover {
+    background-color: #36a420;
+  }
+  
+  .section-title {
+    width: 60%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+  

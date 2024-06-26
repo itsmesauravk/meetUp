@@ -1,8 +1,10 @@
 const express = require("express")
-const {addFriend, getFriendRequest} = require("../controller/followUnfollow")
+const {addFriend, getFriendRequest, acceptFriendRequest, rejectFriendReq} = require("../controller/followUnfollow")
 const followUnfollowRouter = express.Router()
 
-followUnfollowRouter.route("/addfriend/:userId/postId").post(addFriend)
-followUnfollowRouter.route("/get-follow-request").get(getFriendRequest)
+followUnfollowRouter.route("/addfriend").post(addFriend)
+followUnfollowRouter.route("/get-request/:receiverId").get(getFriendRequest)
+followUnfollowRouter.route("/accept-request/:reqId").patch(acceptFriendRequest)   
+followUnfollowRouter.route("/reject-request/:reqId").delete(rejectFriendReq)
 
 module.exports = followUnfollowRouter

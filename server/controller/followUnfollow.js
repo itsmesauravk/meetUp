@@ -1,10 +1,34 @@
 const FollowAndUnfollowUser = require("../schema/followUnfollowSchema")
 
 
+    // Add friend request
+const addFriend = async (req, res) => {
+    try {
+        const { senderId, receiverId, postId, commentId, status } = req.body;
+
+        const addFriendRequest = await FollowAndUnfollowUser.create({
+            sender: senderId,
+            user: receiverId,
+            post: postId,
+            comment: commentId,
+            status
+        });
+
+        if (!addFriendRequest) {
+            return res.status(404).json({ success: false, message: 'Friend request not sent.' });
+        }
+
+        return res.status(200).json({ success: true, message: "Friend request sent successfully", addFriendRequest });
+
+    } catch (error) {
+        return res.status(400).json({ success: false, message: error.message });
+    }
+};
+
 const getFriendRequest =async(req,res) =>{
     try {
-        const senderId = req.params.id;
-        const getRequest = await FollowAndUnfollowUser.find({senderId}).populate("user").populate("post").populate("comment")
+        const receiverId = req.params.id;
+        const getRequest = await FollowAndUnfollowUser.find({receiverId}).populate("user").populate("post").populate("comment")
         if(!getRequest){
             return res.status(404).json({success:false,message:"Unable to get the follow request"})
         }
@@ -14,27 +38,37 @@ const getFriendRequest =async(req,res) =>{
     }
 }
 
-
-const addFriend = async(req,res) =>{
+// Accept friend request
+const acceptFriendRequest = async (req, res) => {
     try {
-        const userId = req.params.id
-        const postId = req.params.id
+        const reqId = req.params.id;
+        const acceptReq = await FollowAndUnfollowUser.findByIdAndUpdate(reqId, {
+            status: "Accepted"
+        }, { new: true });
 
-        const addFriends = await FollowAndUnfollowUser.create({
-            "user":userId,
-            "post":postId,
-            status:"friends"
-        })
-
-        if(!addFriends){
-            return res.status(404).json({success:false,message:'Not added.'})
+        if (!acceptReq) {
+            return res.status(404).json({ success: false, message: "Unable to accept the friend request" });
         }
 
-        return res.status(200).json({success:true,message:"added successfully",addFriends})
-
+        return res.status(200).json({ success: true, message: "Friend request accepted successfully", acceptReq });
     } catch (error) {
-        return res.status(400).json({success:false,message:error})
+        return res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+const rejectFriendReq = async(req,res) =>{
+    try {
+        const reqId = req.params.id;
+        const rejectReq = await FollowAndUnfollowUser.findByIdAndDelete({_id:reqId})
+
+        if(!rejectReq){
+            return res.status(404).json({success:false,message:"Unable to reject the user request"})
+        }
+
+        return res.status(200).json({sucess:true,message:"Rejected successfully"})
+    } catch (error) {
+        return res.status({success:false,message:"Rejected"})
     }
 }
 
-module.exports = {addFriend,getFriendRequest}
+module.exports = {addFriend,getFriendRequest,acceptFriendRequest,rejectFriendReq}

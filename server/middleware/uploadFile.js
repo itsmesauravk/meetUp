@@ -17,19 +17,40 @@ cloudinary.config({
 });
 
 // Function to upload a file
+// const uploadFilePath = async (filePath) => {
+//     try {
+//         const result = await cloudinary.uploader.upload(filePath,{
+//             folder:'User_Post',
+//             resource_type:'auto'
+//         });
+//         console.log('File uploaded successfully:', result);
+//         return result;
+//     } catch (error) {
+//         console.error('Error uploading file to Cloudinary:', error);
+//         throw error;
+//     }
+// };
+
 const uploadFilePath = async (filePath) => {
     try {
-        const result = await cloudinary.uploader.upload(filePath,{
-            folder:'User_Post',
-            resource_type:'auto'
+        // Upload the file to Cloudinary
+        const result = await cloudinary.uploader.upload(filePath, {
+            folder: 'User_Post',  // this is the destination where it goes and store on cloudinary
+            resource_type: 'auto' // this is to dectect the file type automatically, weather it is photo or video
         });
+
+        // Log the result to the console
         console.log('File uploaded successfully:', result);
+
+        // Return the result of the upload
         return result;
     } catch (error) {
+        // If there's an error, log it and throw the error
         console.error('Error uploading file to Cloudinary:', error);
         throw error;
     }
 };
+
 
 module.exports = { uploadFilePath };
 

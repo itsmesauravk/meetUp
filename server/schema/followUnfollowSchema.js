@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const RegisterUser = require("./login&register");
-const PostData = require("./postSchema");
-const addUserComment = require("./commentSchema")
 
 const followAndUnfollowSchema = new mongoose.Schema({
     status: {

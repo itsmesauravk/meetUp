@@ -60,7 +60,7 @@ const addFriend = async (req, res) => {
 const getFriendRequest =async(req,res) =>{
     try {
         const receiverId = req.params.id;
-        const getRequest = await FollowAndUnfollowUser.find({receiverId})
+        const getRequest = await FollowAndUnfollowUser.find({user:receiverId})
         if(!getRequest){
             return res.status(404).json({success:false,message:"Unable to get the follow request"})
         }

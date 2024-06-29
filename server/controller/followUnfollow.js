@@ -1,18 +1,50 @@
 const FollowAndUnfollowUser = require("../schema/followUnfollowSchema")
 
+const registerUser = require("../schema/login&register")
+
 
     // Add friend request
 const addFriend = async (req, res) => {
     try {
-        const { senderId, receiverId, postId, commentId, status } = req.body;
+        const { senderId, receiverId } = req.body;
+
+        //for checking wether request available or not 
+        const check = await FollowAndUnfollowUser.find({
+            $or: [
+                { user: senderId, sender: receiverId },
+                { user: receiverId, sender: senderId }
+            ]
+        });
+
+        if (check.length > 0) {
+            return res.status(400).json({success:false, message:"Request already exist."})
+        }
 
         const addFriendRequest = await FollowAndUnfollowUser.create({
             sender: senderId,
-            user: receiverId,
-            post: postId,
-            comment: commentId,
-            status
+            user: receiverId
         });
+
+        //for updating user friends list
+        const sender = await registerUser.findByIdAndUpdate(senderId, {
+            $push:{
+                friends:{
+                    userId: receiverId
+                }
+            }
+        }, { new: true });
+
+        const receiver = await registerUser.findByIdAndUpdate(receiverId,{
+            $push:{
+                friends:{
+                    userId: senderId
+                }
+            }
+        })
+
+        if (!sender || !receiver) {
+            return res.status(404).json({ success: false, message: 'Friend request not sent.' });
+        }
 
         if (!addFriendRequest) {
             return res.status(404).json({ success: false, message: 'Friend request not sent.' });
@@ -28,7 +60,7 @@ const addFriend = async (req, res) => {
 const getFriendRequest =async(req,res) =>{
     try {
         const receiverId = req.params.id;
-        const getRequest = await FollowAndUnfollowUser.find({receiverId}).populate("user").populate("post").populate("comment")
+        const getRequest = await FollowAndUnfollowUser.find({receiverId})
         if(!getRequest){
             return res.status(404).json({success:false,message:"Unable to get the follow request"})
         }

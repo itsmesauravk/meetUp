@@ -1,5 +1,20 @@
 const mongoose = require("mongoose");
 
+const addFriend = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "RegisterUser"
+    },
+    status: {
+        type: String,
+        default: "Requested",
+        enum: ["Requested", "Friends"]
+    },
+},{
+    id: false,
+}
+);
+
 const registerSchema = new mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -16,7 +31,12 @@ const registerSchema = new mongoose.Schema({
     },
     DOB: { type: Date, required: true },
     gender: { type: String, required: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    picture:{
+        type: String,
+        default: "https://i.sstatic.net/l60Hf.png",
+    },
+    friends: [addFriend],
 });
 
 const RegisterUser = mongoose.model("RegisterUser", registerSchema);

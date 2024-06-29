@@ -74,7 +74,19 @@ const verifyUser = async(req,res) =>{
     }
 }
 
+const allUsers = async(req,res) =>{
+    try {
+        const allUsers = await registerUser.find()
+        if(allUsers){
+            return res.status(200).json({success:true, allUsers})
+        }
+    }catch (error) {
+        console.log(error)
+    }
+
+}
 
 
 
-module.exports = {SignUpUser,loginUser,verifyUser}
+
+module.exports = {SignUpUser,loginUser,verifyUser, allUsers}

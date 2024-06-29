@@ -8,7 +8,7 @@ const Post = ({ username, profilePic, postId, content, image, likes = [], visibl
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes.length);
 
-  const userData = localStorage.getItem("user");
+  const userData = localStorage.getItem("user-data");
   const userId = JSON.parse(userData).id;
 
   useEffect(() => {

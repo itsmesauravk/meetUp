@@ -8,6 +8,12 @@ const followAndUnfollowSchema = new mongoose.Schema({
         type: String,
         default: "unFriend"
     },
+    message: {
+        type: String,
+        default: "Requested",
+        enum:["Requested","Friends","Rejected"]
+    }
+    ,
     "sender" : {
         type: mongoose.Schema.Types.ObjectId,
         ref: RegisterUser
@@ -15,14 +21,6 @@ const followAndUnfollowSchema = new mongoose.Schema({
     "user": {
         type: mongoose.Schema.Types.ObjectId,
         ref: RegisterUser 
-    },
-    "post": {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: PostData 
-    },
-    "comment":{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: addUserComment
     }
 });
 

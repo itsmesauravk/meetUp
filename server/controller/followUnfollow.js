@@ -83,8 +83,9 @@ const getFriendRequest = async (req, res) => {
 // Accept friend request
 const acceptFriendRequest = async (req, res) => {
     try {
-        const reqId = req.params.id;
-        const acceptReq = await FollowAndUnfollowUser.findByIdAndUpdate(reqId, {
+        // you doesnot recieve the reqId , you will recieve the senderId and reciever Id
+        const reqId = req.params.id; //wrong
+        const acceptReq = await FollowAndUnfollowUser.findByIdAndUpdate(reqId, { //wrong
             status: "Accepted"
         }, { new: true });
 
@@ -102,8 +103,9 @@ const acceptFriendRequest = async (req, res) => {
 
 const rejectFriendReq = async(req,res) =>{
     try {
-        const reqId = req.params.id;
-        const rejectReq = await FollowAndUnfollowUser.findByIdAndDelete({_id:reqId})
+        // you doesnot recieve the reqId , you will recieve the senderId and reciever Id 
+        const reqId = req.params.id; //wrong
+        const rejectReq = await FollowAndUnfollowUser.findByIdAndDelete({_id:reqId}) //wrong
 
         // update the both users( sender and reciver ) friend list i.e. delete from both
 
@@ -116,5 +118,7 @@ const rejectFriendReq = async(req,res) =>{
         return res.status({success:false,message:"Rejected"})
     }
 }
+
+
 
 module.exports = {addFriend,getFriendRequest,acceptFriendRequest,rejectFriendReq}

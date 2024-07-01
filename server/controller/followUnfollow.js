@@ -57,18 +57,28 @@ const addFriend = async (req, res) => {
     }
 };
 
-const getFriendRequest =async(req,res) =>{
+const getFriendRequest = async (req, res) => {
     try {
-        const receiverId = req.params.id;
-        const getRequest = await FollowAndUnfollowUser.find({receiverId})
-        if(!getRequest){
-            return res.status(404).json({success:false,message:"Unable to get the follow request"})
+        const receiverId = req.params.receiverId;
+
+        const getRequest = await FollowAndUnfollowUser.find({
+            $or: [
+                { user: receiverId },
+                { sender: receiverId }
+            ]
+        }).populate("sender").populate("user");
+
+        if (!getRequest || getRequest.length === 0) {
+            return res.status(404).json({ success: false, message: "Unable to get the follow request" });
         }
-        return res.status(200).json({success:true,message:"Follow req sent successfully"},getRequest)
+
+        return res.status(200).json({ success: true, message: "Success", getRequest });
     } catch (error) {
-        return res.status(404).json({success:false,message:error})
+        return res.status(500).json({ success: false, message: error.message });
     }
-}
+};
+
+
 
 // Accept friend request
 const acceptFriendRequest = async (req, res) => {
@@ -77,6 +87,8 @@ const acceptFriendRequest = async (req, res) => {
         const acceptReq = await FollowAndUnfollowUser.findByIdAndUpdate(reqId, {
             status: "Accepted"
         }, { new: true });
+
+        // update the both users( sender and reciver ) friend list i.e. make status of them to "Accepted"
 
         if (!acceptReq) {
             return res.status(404).json({ success: false, message: "Unable to accept the friend request" });
@@ -92,6 +104,8 @@ const rejectFriendReq = async(req,res) =>{
     try {
         const reqId = req.params.id;
         const rejectReq = await FollowAndUnfollowUser.findByIdAndDelete({_id:reqId})
+
+        // update the both users( sender and reciver ) friend list i.e. delete from both
 
         if(!rejectReq){
             return res.status(404).json({success:false,message:"Unable to reject the user request"})
